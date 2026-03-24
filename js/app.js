@@ -103,11 +103,6 @@
     const closeBtn   = document.getElementById('settings-close');
     const antInput   = document.getElementById('settings-ant-key');
     const antSave    = document.getElementById('settings-ant-save');
-    const elInput    = document.getElementById('settings-el-key');
-    const vidInput   = document.getElementById('settings-voice-id');
-    const voiceSave  = document.getElementById('settings-voice-save');
-    const voiceTest  = document.getElementById('settings-voice-test');
-    const voiceStatus = document.getElementById('settings-voice-status');
 
     function openPanel() {
       antInput.value = '';
@@ -135,32 +130,6 @@
       setTimeout(() => { antInput.placeholder = 'Already set — paste to replace'; }, 2000);
     });
 
-    voiceSave.addEventListener('click', () => {
-      const key = elInput.value.trim();
-      const vid = vidInput.value.trim();
-      if (key) Storage.setElKey(key);
-      if (vid) Storage.setVoiceId(vid);
-      voiceStatus.textContent = 'Voice settings saved.';
-      elInput.value = '';
-      setTimeout(() => { voiceStatus.textContent = ''; }, 2500);
-    });
-
-    voiceTest.addEventListener('click', () => {
-      // Save current inputs before testing
-      const key = elInput.value.trim();
-      const vid = vidInput.value.trim();
-      if (key) Storage.setElKey(key);
-      if (vid) Storage.setVoiceId(vid);
-
-      if (!Voice.hasVoice()) {
-        voiceStatus.textContent = 'Add your ElevenLabs key and Voice ID first.';
-        setTimeout(() => { voiceStatus.textContent = ''; }, 3000);
-        return;
-      }
-      voiceStatus.textContent = 'Requesting audio…';
-      Voice.speak('Keep noting. Whatever arises — note it and move on.');
-      setTimeout(() => { voiceStatus.textContent = ''; }, 4000);
-    });
   }
 
   // ── Main init ──────────────────────────────────────────────────────────────

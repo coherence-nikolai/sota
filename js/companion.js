@@ -106,18 +106,6 @@ const Companion = (() => {
       loadingEl.querySelector('.msg-body').innerHTML = formatResponse(responseText);
       loadingEl.querySelector('.msg-agent-label').textContent = agentName;
 
-      // Listen button — only if voice configured
-      if (Voice.hasVoice()) {
-        const listenBtn = document.createElement('button');
-        listenBtn.className = 'msg-listen';
-        listenBtn.textContent = '▶ listen';
-        listenBtn.addEventListener('click', () => {
-          Voice.speak(responseText);
-          listenBtn.textContent = '▶ playing…';
-          setTimeout(() => { listenBtn.textContent = '▶ listen'; }, 3000);
-        });
-        loadingEl.appendChild(listenBtn);
-      }
 
       // Add to history
       histories[currentAgent].push({ role: 'assistant', content: responseText });
