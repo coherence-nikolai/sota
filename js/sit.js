@@ -287,11 +287,14 @@ const Sit = (() => {
     updateTimer();
 
     if (targetSeconds > 0 && seconds >= targetSeconds) {
-      showGuidance(
-        'The sit is complete. Rest here for a moment. When you\'re ready, open your eyes.',
-        'assets/audio/sit/complete.mp3'
-      );
-      setTimeout(endSit, 30000);
+      Voice.playBell();
+      setTimeout(() => {
+        showGuidance(
+          'The sit is complete. Rest here for a moment. When you\'re ready, open your eyes.',
+          'assets/audio/sit/complete.mp3'
+        );
+      }, 2500);
+      setTimeout(endSit, 32000);
     }
   }
 
