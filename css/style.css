@@ -411,12 +411,6 @@ select option { background: var(--bg-2); }
 }
 
 /* ─── Mode: Tracker ─── */
-.tracker-header { padding: 24px 20px 16px; }
-.tracker-header h2 {
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: var(--amber);
-}
 
 .tracker-momentum {
   margin: 0 16px 16px;
@@ -632,6 +626,113 @@ select option { background: var(--bg-2); }
 }
 .btn-send:hover { opacity: 0.85; }
 .btn-send:disabled { opacity: 0.4; cursor: default; }
+
+/* ─── Companion agent description ─── */
+.companion-agent-desc {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--text-mute);
+  padding: 0 2px 4px;
+  min-height: 18px;
+}
+
+/* ─── Dana link ─── */
+.dana-link {
+  text-align: center;
+  margin-top: 4px;
+}
+.dana-link a {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-mute);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+.dana-link a:hover { color: var(--amber); }
+
+/* ─── Session type buttons ─── */
+.session-type-options {
+  display: flex;
+  gap: 8px;
+}
+.session-btn {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.session-btn.active { border-color: var(--amber); color: var(--amber); }
+
+/* ─── Tracker header ─── */
+.tracker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 24px 20px 16px;
+}
+.tracker-header h2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--amber);
+}
+
+/* ─── Practice Insights ─── */
+.tracker-insights {
+  margin: 0 16px 8px;
+  background: var(--bg-2);
+  border: 1px solid var(--amber-dim);
+  border-radius: 4px;
+  padding: 16px;
+}
+.tracker-insights-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.tracker-insights-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+}
+.tracker-insights-body {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+.tracker-insights-trigger {
+  text-align: center;
+  padding: 4px 0 12px;
+}
+
+/* ─── Onboarding options ─── */
+.onboarding-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.onboard-btn {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.onboard-btn:hover { border-color: var(--amber); color: var(--text); }
 
 /* ─── Mode: Noting Trainer ─── */
 .noting-header {

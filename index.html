@@ -25,6 +25,15 @@
         <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
         <button id="api-key-save" class="btn-primary">Begin</button>
       </div>
+      <div class="setup-block" id="onboarding-block" style="display:none">
+        <label>Where are you in practice?</label>
+        <div class="onboarding-options">
+          <button class="onboard-btn" data-level="beginner">New to noting</button>
+          <button class="onboard-btn" data-level="post-ap">Had significant experiences</button>
+          <button class="onboard-btn" data-level="dark-night">In the dark night</button>
+          <button class="onboard-btn" data-level="post-path">Post-path / review</button>
+        </div>
+      </div>
       <p class="setup-skip"><a href="#" id="skip-setup">Continue without AI Companion →</a></p>
     </div>
   </div>
@@ -73,6 +82,14 @@
           </div>
         </div>
         <div class="sit-setup-block">
+          <label>Session type</label>
+          <div class="session-type-options">
+            <button class="session-btn active" data-type="noting">Noting</button>
+            <button class="session-btn" data-type="metta">Metta</button>
+            <button class="session-btn" data-type="samatha">Samatha</button>
+          </div>
+        </div>
+        <div class="sit-setup-block" id="stage-select-block">
           <label>Where are you?</label>
           <select id="sit-stage-select">
             <option value="unknown">Don't know</option>
@@ -85,6 +102,7 @@
           </select>
         </div>
         <button id="sit-begin" class="btn-primary">Begin Sit</button>
+        <p class="dana-link"><a href="https://buymeacoffee.com/coherence_nikolai" target="_blank" rel="noopener noreferrer">Support this app →</a></p>
       </div>
     </div>
 
@@ -104,8 +122,19 @@
     <div id="mode-tracker" class="mode-screen hidden">
       <div class="tracker-header">
         <h2>Practice Log</h2>
+        <button id="tracker-export" class="btn-ghost-sm">export</button>
       </div>
       <div class="tracker-momentum" id="tracker-momentum"></div>
+      <div class="tracker-insights" id="tracker-insights" style="display:none">
+        <div class="tracker-insights-header">
+          <span class="tracker-insights-label">Practice Insights</span>
+          <button id="insights-close" class="btn-ghost-sm">✕</button>
+        </div>
+        <div id="insights-body" class="tracker-insights-body"></div>
+      </div>
+      <div class="tracker-insights-trigger">
+        <button id="insights-btn" class="btn-ghost-sm">✦ analyse practice</button>
+      </div>
       <div class="tracker-log-form">
         <h3>Log a sit</h3>
         <div class="log-row">
@@ -158,6 +187,7 @@
       </div>
       <div class="companion-input-row">
         <div class="companion-agent-select">
+          <div id="companion-agent-desc" class="companion-agent-desc">Maps your experience to the Progress of Insight.</div>
           <select id="companion-agent">
             <optgroup label="Dharma">
               <option value="oracle">Ñāna Oracle</option>

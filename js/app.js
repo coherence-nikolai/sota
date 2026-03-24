@@ -21,11 +21,24 @@
       const key = input.value.trim();
       if (key && key.startsWith('sk-ant-')) {
         Storage.setApiKey(key);
-        launch();
+        // Show onboarding question if not already answered
+        if (!Storage.getSetting('onboarding_level')) {
+          document.getElementById('onboarding-block').style.display = '';
+          saveBtn.style.display = 'none';
+        } else {
+          launch();
+        }
       } else if (key) {
         input.style.borderColor = 'var(--danger)';
         setTimeout(() => { input.style.borderColor = ''; }, 2000);
       }
+    });
+
+    document.querySelectorAll('.onboard-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Storage.setSetting('onboarding_level', btn.dataset.level);
+        launch();
+      });
     });
 
     skipLink.addEventListener('click', e => {

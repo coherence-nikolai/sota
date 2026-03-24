@@ -8,6 +8,21 @@ const Companion = (() => {
   const histories = {};
   let currentAgent = 'oracle';
 
+  const DESCRIPTIONS = {
+    oracle:      'Maps your experience to the Progress of Insight.',
+    'dark-night':'Deep expertise in ñānas 6–10. Effort calibration.',
+    pali:        'Grounds experience in classical Pāli terminology.',
+    retreat:     'Structures intensive home retreat practice.',
+    guidance:    'Writes voice track scripts in the Hamilton register.',
+    metta:       'Traditional metta sequences for specific junctures.',
+    onboarding:  'Orients new and returning yogis to the map.',
+    questioner:  'Asks probing questions. Surfaces what\'s actually here.',
+    pattern:     'Reads your practice data and identifies patterns.',
+    narrator:    'Tells the story of your practice arc.',
+    relapse:     'Meets you after a gap. Gets momentum moving again.',
+    crisis:      'Holds the boundary between dark night and genuine crisis.',
+  };
+
   function init() {
     const agentSelect  = document.getElementById('companion-agent');
     const input        = document.getElementById('companion-input');
@@ -22,6 +37,8 @@ const Companion = (() => {
     agentSelect.addEventListener('change', () => {
       currentAgent = agentSelect.value;
       agentBadge.textContent = AGENTS[currentAgent]?.name || currentAgent;
+      const desc = document.getElementById('companion-agent-desc');
+      if (desc) desc.textContent = DESCRIPTIONS[currentAgent] || '';
     });
 
     // Send on button

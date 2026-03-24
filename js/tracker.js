@@ -4,7 +4,51 @@ const Tracker = (() => {
 
   function init() {
     document.getElementById('log-save').addEventListener('click', saveEntry);
+
+    document.getElementById('tracker-export')?.addEventListener('click', exportLog);
+
+    document.getElementById('insights-btn')?.addEventListener('click', runInsights);
+    document.getElementById('insights-close')?.addEventListener('click', () => {
+      document.getElementById('tracker-insights').style.display = 'none';
+    });
+
     render();
+  }
+
+  function exportLog() {
+    const log = Storage.getLog();
+    if (!log.length) return;
+    const blob = new Blob([JSON.stringify(log, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `sota-practice-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function runInsights() {
+    if (!Storage.hasApiKey()) {
+      alert('Add your Anthropic API key in Settings to use Practice Insights.');
+      return;
+    }
+    const panel = document.getElementById('tracker-insights');
+    const body  = document.getElementById('insights-body');
+    panel.style.display = 'block';
+    body.textContent = 'Analysing…';
+
+    const context = Storage.getSummaryForAgent(30);
+    const history = [{ role: 'user', content: `Here is my practice history:\n\n${context}\n\nAnalyse the patterns and give me your assessment.` }];
+
+    try {
+      let text = '';
+      await API.invokeAgent('pattern', history, {
+        onChunk: (_, full) => { body.textContent = full; },
+        onDone:  (full)    => { body.textContent = full; },
+      });
+    } catch (err) {
+      body.textContent = 'Could not load insights. Check your API key.';
+    }
   }
 
   function saveEntry() {

@@ -7,9 +7,28 @@ const Sit = (() => {
   let seconds = 0;
   let targetSeconds = 0;
   let currentStage = 'unknown';
+  let currentType  = 'noting'; // noting | metta | samatha
   let guidanceQueue = [];
   let guidanceIndex = 0;
   let isActive = false;
+
+  const METTA_GUIDANCE = [
+    'Settle in. Let the body be still. Bring to mind the simplest wish: may I be well.',
+    'May I be happy. Not grasping for happiness — just offering the wish, openly.',
+    'May I be free from suffering. Say it and mean it. Whatever is present right now — may it ease.',
+    'May I be at peace. Let the words land. Let them be felt, not just recited.',
+    'Expand outward now. Someone you love easily. May they be well. May they be happy.',
+    'Someone neutral — a stranger, a passerby. May they be well. May they be free from suffering.',
+  ];
+
+  const SAMATHA_GUIDANCE = [
+    'Settle at the breath. Not controlling it — just resting attention at the point where breath meets the upper lip.',
+    'When the mind moves, return. No commentary. Just return to the breath. Again and again.',
+    'The object is the breath. Not the idea of the breath — the actual sensation, right now, at the nostrils.',
+    'Concentration deepens through return, not through forcing. Each return is the practice.',
+    'Let everything else recede. Sounds, thoughts, sensations — let them be in the background. The breath is foreground.',
+    'The mind is steadying. Stay with the breath. Don\'t reach for anything beyond what is here.',
+  ];
 
   // Offline guidance library — used when no API key or for instant delivery
   const OFFLINE_GUIDANCE = {
@@ -75,6 +94,18 @@ const Sit = (() => {
       });
     });
 
+    // Session type buttons
+    document.querySelectorAll('.session-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentType = btn.dataset.type;
+        // Hide stage select for metta/samatha — not relevant
+        const stageBlock = document.getElementById('stage-select-block');
+        if (stageBlock) stageBlock.style.display = currentType === 'noting' ? '' : 'none';
+      });
+    });
+
     // Keyword buttons
     document.querySelectorAll('.kw-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -105,7 +136,10 @@ const Sit = (() => {
   function beginSit() {
     const activeBtn = document.querySelector('.dur-btn.active');
     const minutes = parseInt(activeBtn?.dataset.min || '60');
-    currentStage = document.getElementById('sit-stage-select').value;
+    currentType  = document.querySelector('.session-btn.active')?.dataset.type || 'noting';
+    currentStage = currentType === 'noting'
+      ? document.getElementById('sit-stage-select').value
+      : currentType;
     targetSeconds = minutes * 60;
     seconds = 0;
     isActive = true;
@@ -120,14 +154,24 @@ const Sit = (() => {
       early: 'early stages', ap: 'A&P', dissolution: 'dissolution',
       'dark-night': 'dark night', reobs: 're-observation',
       equanimity: 'equanimity', unknown: 'sitting',
+      metta: 'metta', samatha: 'samatha',
     };
-    document.getElementById('sit-stage-label').textContent = stageLabels[currentStage] || 'sitting';
+    const badgeText = currentType === 'metta' ? 'metta'
+                    : currentType === 'samatha' ? 'samatha'
+                    : (stageLabels[currentStage] || 'sitting');
+    document.getElementById('sit-stage-label').textContent = badgeText;
 
     // Initial guidance
-    showGuidance(
-      getGuidanceText(currentStage, 'opening'),
-      `assets/audio/sit/${currentStage}-0.mp3`
-    );
+    if (currentType === 'metta') {
+      showGuidance(METTA_GUIDANCE[0]);
+    } else if (currentType === 'samatha') {
+      showGuidance(SAMATHA_GUIDANCE[0]);
+    } else {
+      showGuidance(
+        getGuidanceText(currentStage, 'opening'),
+        `assets/audio/sit/${currentStage}-0.mp3`
+      );
+    }
 
     // Start timer
     timerInterval = setInterval(tick, 1000);
@@ -182,16 +226,20 @@ const Sit = (() => {
   }
 
   function scheduleGuidance() {
-    // Deliver guidance at: 5min, 15min, 25min, 35min, 45min, 55min
     const intervals = [5, 15, 25, 35, 45, 55].map(m => m * 60 * 1000);
     intervals.forEach((delay, i) => {
       setTimeout(() => {
         if (!isActive) return;
-        const texts = OFFLINE_GUIDANCE[currentStage] || OFFLINE_GUIDANCE.unknown;
-        const idx  = i % texts.length;
-        const text = texts[idx];
-        const stage = OFFLINE_GUIDANCE[currentStage] ? currentStage : 'unknown';
-        showGuidance(text, `assets/audio/sit/${stage}-${idx}.mp3`);
+        if (currentType === 'metta') {
+          showGuidance(METTA_GUIDANCE[i % METTA_GUIDANCE.length]);
+        } else if (currentType === 'samatha') {
+          showGuidance(SAMATHA_GUIDANCE[i % SAMATHA_GUIDANCE.length]);
+        } else {
+          const texts = OFFLINE_GUIDANCE[currentStage] || OFFLINE_GUIDANCE.unknown;
+          const idx   = i % texts.length;
+          const stage = OFFLINE_GUIDANCE[currentStage] ? currentStage : 'unknown';
+          showGuidance(texts[idx], `assets/audio/sit/${stage}-${idx}.mp3`);
+        }
       }, delay);
     });
   }
