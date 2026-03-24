@@ -128,6 +128,55 @@ const Storage = (() => {
     return getSettings()[key] ?? fallback;
   }
 
+  // ── Streak ─────────────────────────────────────────────────────────────────
+  function getStreak() {
+    const log = getLog();
+    if (!log.length) return { current: 0, longest: 0, lastSitDaysAgo: null };
+
+    // Build set of unique practice dates (YYYY-MM-DD)
+    const dateSets = new Set(
+      log.map(e => new Date(e.timestamp).toISOString().slice(0, 10))
+    );
+    const dates = Array.from(dateSets).sort().reverse(); // newest first
+
+    const today     = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+
+    // Current streak — must include today or yesterday to be live
+    let current = 0;
+    if (dates[0] === today || dates[0] === yesterday) {
+      let check = new Date(dates[0]);
+      for (const d of dates) {
+        const expected = check.toISOString().slice(0, 10);
+        if (d === expected) {
+          current++;
+          check = new Date(check.getTime() - 864e5);
+        } else break;
+      }
+    }
+
+    // Longest streak
+    let longest = 0, run = 1;
+    const asc = [...dates].reverse();
+    for (let i = 1; i < asc.length; i++) {
+      const prev = new Date(asc[i - 1]).getTime();
+      const curr = new Date(asc[i]).getTime();
+      if (curr - prev === 864e5) { run++; }
+      else { longest = Math.max(longest, run); run = 1; }
+    }
+    longest = Math.max(longest, run);
+
+    const lastMs = new Date(dates[0]).getTime();
+    const lastSitDaysAgo = Math.floor((Date.now() - lastMs) / 864e5);
+
+    return { current, longest, lastSitDaysAgo };
+  }
+
+  // ── Retreat ────────────────────────────────────────────────────────────────
+  function getRetreat()         { try { return JSON.parse(localStorage.getItem('sota_retreat') || 'null'); } catch(_) { return null; } }
+  function setRetreat(data)     { localStorage.setItem('sota_retreat', JSON.stringify(data)); }
+  function clearRetreat()       { localStorage.removeItem('sota_retreat'); }
+
   // ── ElevenLabs / Voice ─────────────────────────────────────────────────────
   function getElKey()     { return getSetting('el_key') || ''; }
   function setElKey(k)    { setSetting('el_key', k ? k.trim() : null); }
@@ -139,6 +188,8 @@ const Storage = (() => {
     getApiKey, setApiKey, hasApiKey,
     getLog, addEntry, deleteEntry,
     getMomentumScore, getSummaryForAgent,
+    getStreak,
+    getRetreat, setRetreat, clearRetreat,
     getSettings, setSetting, getSetting,
     getElKey, setElKey, hasElKey, getVoiceId, setVoiceId,
   };

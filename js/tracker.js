@@ -76,18 +76,26 @@ const Tracker = (() => {
   function renderMomentum() {
     const el = document.getElementById('tracker-momentum');
     const m  = Storage.getMomentumScore();
+    const s  = Storage.getStreak();
+
+    const streakLine = s.current > 0
+      ? `<span class="streak-live">${s.current} day${s.current !== 1 ? 's' : ''} ↑</span>`
+      : (s.lastSitDaysAgo === 1 ? `<span class="streak-warn">streak broken yesterday</span>`
+       : s.lastSitDaysAgo > 1  ? `<span class="streak-warn">last sat ${s.lastSitDaysAgo} days ago</span>`
+       : '');
+
+    const longestLine = s.longest > 0
+      ? `<span class="streak-pb">best: ${s.longest}d</span>`
+      : '';
 
     el.innerHTML = `
+      <div class="streak-row">${streakLine}${longestLine}</div>
       <div class="momentum-label">7-day momentum</div>
       <div class="momentum-score">${m.score7}%</div>
-      <div class="momentum-bar">
-        <div class="momentum-fill" style="width:${m.score7}%"></div>
-      </div>
+      <div class="momentum-bar"><div class="momentum-fill" style="width:${m.score7}%"></div></div>
       <div class="momentum-label" style="margin-top:12px">30-day momentum</div>
       <div class="momentum-score">${m.score30}%</div>
-      <div class="momentum-bar">
-        <div class="momentum-fill" style="width:${m.score30}%"></div>
-      </div>
+      <div class="momentum-bar"><div class="momentum-fill" style="width:${m.score30}%"></div></div>
       <div style="margin-top:12px;font-family:var(--font-ui);font-size:0.75rem;color:var(--text-mute)">
         ${m.days7}/7 days this week · ${m.total} sits logged total
       </div>

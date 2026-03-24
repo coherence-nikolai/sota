@@ -998,6 +998,230 @@ select option { background: var(--bg-2); }
 }
 .msg-listen:hover { color: var(--amber); }
 
+/* ─── Nav (6 items) ─── */
+#main-nav { display: flex; }
+#main-nav .nav-btn { flex: 1; }
+#main-nav .nav-label { font-size: 0.62rem; }
+#main-nav .nav-icon  { font-size: 1rem; }
+
+/* ─── Streak ─── */
+.streak-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.streak-live {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--amber);
+  letter-spacing: 0.02em;
+}
+.streak-warn {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-mute);
+  font-style: italic;
+}
+.streak-pb {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-mute);
+  letter-spacing: 0.05em;
+}
+
+/* ─── Retreat ─── */
+#mode-retreat {
+  overflow-y: auto;
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
+}
+
+/* Home (template selection) */
+.retreat-home-inner {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+.retreat-home-inner h2 {
+  margin-bottom: 6px;
+}
+.retreat-home-sub {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+.retreat-templates {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.retreat-template-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+.retreat-card-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  font-family: var(--font-ui);
+  letter-spacing: 0.01em;
+}
+.retreat-card-tag {
+  font-size: 0.8rem;
+  color: var(--amber-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.retreat-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.retreat-template-card .btn-primary {
+  width: 100%;
+}
+
+/* Active retreat */
+.retreat-active-inner {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+.retreat-active-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.retreat-title-line {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 4px;
+}
+.retreat-day-label {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Progress dots */
+.retreat-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.retreat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-done   { background: var(--amber-dim); }
+.dot-today  { background: var(--amber); box-shadow: 0 0 0 2px rgba(200,146,42,0.3); }
+.dot-future { background: var(--border); }
+
+/* Theme block */
+.retreat-theme-block {
+  background: var(--bg-2);
+  border-left: 2px solid var(--amber-dim);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 16px;
+  margin-bottom: 24px;
+}
+.retreat-theme {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 8px;
+  font-style: italic;
+}
+.retreat-note {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* Sits */
+.retreat-sits-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 10px;
+}
+.retreat-sits {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.retreat-sit-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: opacity 0.2s;
+}
+.retreat-sit-row.sit-done {
+  opacity: 0.45;
+}
+.retreat-sit-done-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-mute);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.retreat-sit-done-btn.done {
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+.retreat-sit-label {
+  flex: 1;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+.retreat-sit-begin {
+  flex-shrink: 0;
+}
+
+/* Check-in button */
+.retreat-checkin-btn {
+  background: transparent;
+  border: none;
+  color: var(--amber-dim);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: color 0.15s;
+}
+.retreat-checkin-btn:hover { color: var(--amber); }
+
 /* ─── Kasina ─── */
 #mode-kasina {
   display: flex;

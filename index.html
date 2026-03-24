@@ -257,6 +257,59 @@
       </div>
     </div>
 
+    <!-- Mode: Retreat Planner -->
+    <div id="mode-retreat" class="mode-screen hidden">
+
+      <!-- No active retreat: template selection -->
+      <div id="retreat-home">
+        <div class="retreat-home-inner">
+          <h2>Home Retreat</h2>
+          <p class="retreat-home-sub">Choose a structured retreat. Your progress is tracked day by day.</p>
+          <div class="retreat-templates">
+            <div class="retreat-template-card">
+              <div class="retreat-card-name">5-Day Sprint</div>
+              <div class="retreat-card-tag">Build momentum. Break through.</div>
+              <div class="retreat-card-desc">Five days of intensive noting. Structured to build concentration early and drive into the terrain on days three through five.</div>
+              <button class="retreat-template-btn btn-primary" data-template="5day">Begin Retreat</button>
+            </div>
+            <div class="retreat-template-card">
+              <div class="retreat-card-name">7-Day Home Retreat</div>
+              <div class="retreat-card-tag">A full cycle. Foundation to integration.</div>
+              <div class="retreat-card-desc">Seven days structured around the arc of the Progress of Insight. Foundation, terrain, navigation, opening, and rest.</div>
+              <button class="retreat-template-btn btn-primary" data-template="7day">Begin Retreat</button>
+            </div>
+            <div class="retreat-template-card">
+              <div class="retreat-card-name">10-Day Classic</div>
+              <div class="retreat-card-tag">The full arc. No shortcuts.</div>
+              <div class="retreat-card-desc">Ten days following the classical structure: foundation, acceleration, dark night, equanimity, integration.</div>
+              <button class="retreat-template-btn btn-primary" data-template="10day">Begin Retreat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active retreat: today's plan -->
+      <div id="retreat-active" class="hidden">
+        <div class="retreat-active-inner">
+          <div class="retreat-active-header">
+            <div>
+              <div id="retreat-title-line" class="retreat-title-line"></div>
+              <div id="retreat-day-label" class="retreat-day-label"></div>
+            </div>
+            <button id="retreat-end-btn" class="btn-ghost-sm">end retreat</button>
+          </div>
+          <div id="retreat-dots" class="retreat-dots"></div>
+          <div class="retreat-theme-block">
+            <div id="retreat-theme" class="retreat-theme"></div>
+            <div id="retreat-note" class="retreat-note"></div>
+          </div>
+          <div class="retreat-sits-label">Today's sits</div>
+          <div id="retreat-sits" class="retreat-sits"></div>
+          <button id="retreat-checkin-btn" class="retreat-checkin-btn">Check in with retreat guide →</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings toggle -->
     <button id="settings-toggle" title="Settings">⚙</button>
 
@@ -268,11 +321,15 @@
       </button>
       <button class="nav-btn" data-mode="compass">
         <span class="nav-icon">⊕</span>
-        <span class="nav-label">Compass</span>
+        <span class="nav-label">Map</span>
       </button>
       <button class="nav-btn" data-mode="tracker">
         <span class="nav-icon">▦</span>
         <span class="nav-label">Track</span>
+      </button>
+      <button class="nav-btn" data-mode="retreat">
+        <span class="nav-icon">☸</span>
+        <span class="nav-label">Retreat</span>
       </button>
       <button class="nav-btn" data-mode="noting">
         <span class="nav-icon">∴</span>
@@ -280,7 +337,7 @@
       </button>
       <button class="nav-btn" data-mode="companion">
         <span class="nav-icon">◈</span>
-        <span class="nav-label">Companion</span>
+        <span class="nav-label">Guide</span>
       </button>
     </nav>
 
@@ -302,7 +359,13 @@
           <button id="settings-ant-save" class="btn-secondary">Save Key</button>
         </div>
 
-<div class="settings-section">
+        <div class="settings-section">
+          <div class="settings-section-title">Daily Reminder</div>
+          <div class="settings-note">A gentle notification when you haven't sat in 18 hours.</div>
+          <button id="settings-notif-toggle" class="btn-secondary">Enable Reminder</button>
+        </div>
+
+        <div class="settings-section">
           <div class="settings-section-title">Dana</div>
           <div class="settings-note">Sota is free. If it has been useful to your practice, consider a contribution.</div>
           <a href="https://buymeacoffee.com/coherence_nikolai" target="_blank" rel="noopener noreferrer" class="btn-ghost-sm settings-dana-link">Buy me a coffee →</a>
@@ -320,6 +383,7 @@
   <script src="js/tracker.js"></script>
   <script src="js/companion.js"></script>
   <script src="js/noting.js"></script>
+  <script src="js/retreat.js"></script>
   <script src="js/voice.js"></script>
   <script src="js/app.js"></script>
 </body>

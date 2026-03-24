@@ -201,5 +201,16 @@ const Companion = (() => {
     Object.keys(histories).forEach(k => histories[k] = []);
   }
 
-  return { init, clearHistory };
+  function switchAgent(agentKey) {
+    if (!AGENTS[agentKey]) return;
+    currentAgent = agentKey;
+    const select = document.getElementById('companion-agent');
+    const badge  = document.getElementById('companion-agent-badge');
+    const desc   = document.getElementById('companion-agent-desc');
+    if (select) select.value = agentKey;
+    if (badge)  badge.textContent = AGENTS[agentKey]?.name || agentKey;
+    if (desc)   desc.textContent  = DESCRIPTIONS[agentKey] || '';
+  }
+
+  return { init, clearHistory, switchAgent };
 })();

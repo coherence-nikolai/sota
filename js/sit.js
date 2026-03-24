@@ -141,6 +141,7 @@ const Sit = (() => {
     showGuidance('You\'re in. Timer is synchronised. Settle in.');
     timerInterval = setInterval(tick, 1000);
     scheduleGuidance();
+    scheduleReminders();
   }
 
   function init() {
@@ -253,6 +254,7 @@ const Sit = (() => {
 
     timerInterval = setInterval(tick, 1000);
     scheduleGuidance();
+    scheduleReminders();
   }
 
   function endSit() {
@@ -298,6 +300,18 @@ const Sit = (() => {
     const s = seconds % 60;
     document.getElementById('sit-timer').textContent =
       String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  // Short momentum reminders — play between main guidance, no text change
+  // Files: assets/audio/sit/remind-{0-7}.mp3
+  function scheduleReminders() {
+    // Fire at 10, 20, 30, 40, 50, 60, 70, 80, 90 min (midway between main guidance)
+    [10, 20, 30, 40, 50, 60, 70, 80, 90].forEach((min, i) => {
+      setTimeout(() => {
+        if (!isActive) return;
+        Voice.playFile(`assets/audio/sit/remind-${i % 8}.mp3`);
+      }, min * 60 * 1000);
+    });
   }
 
   function scheduleGuidance() {

@@ -52,7 +52,7 @@
   }
 
   // ── Mode router ────────────────────────────────────────────────────────────
-  const MODES = ['sit-setup', 'compass', 'tracker', 'noting', 'companion'];
+  const MODES = ['sit-setup', 'compass', 'tracker', 'retreat', 'noting', 'companion'];
   let activeMode = 'sit-setup';
 
   function showMode(mode) {
@@ -69,7 +69,8 @@
     activeMode = mode;
 
     if (mode === 'tracker') Tracker.refresh();
-    if (mode === 'noting') Noting.reset();
+    if (mode === 'noting')  Noting.reset();
+    if (mode === 'retreat') Retreat.refresh();
   }
 
   function initNav() {
@@ -98,19 +99,17 @@
 
   // ── Settings panel ─────────────────────────────────────────────────────────
   function initSettings() {
-    const panel      = document.getElementById('settings-panel');
-    const toggle     = document.getElementById('settings-toggle');
-    const closeBtn   = document.getElementById('settings-close');
-    const antInput   = document.getElementById('settings-ant-key');
-    const antSave    = document.getElementById('settings-ant-save');
+    const panel    = document.getElementById('settings-panel');
+    const toggle   = document.getElementById('settings-toggle');
+    const closeBtn = document.getElementById('settings-close');
+    const antInput = document.getElementById('settings-ant-key');
+    const antSave  = document.getElementById('settings-ant-save');
 
     function openPanel() {
       antInput.value = '';
       antInput.placeholder = Storage.hasApiKey() ? 'Already set — paste to replace' : 'sk-ant-…';
-      elInput.value = '';
-      elInput.placeholder = Storage.hasElKey() ? 'Already set — paste to replace' : 'Your ElevenLabs key…';
-      vidInput.value = Storage.getVoiceId();
       panel.classList.remove('hidden');
+      updateNotifBtn();
     }
 
     toggle.addEventListener('click', openPanel);
@@ -130,6 +129,53 @@
       setTimeout(() => { antInput.placeholder = 'Already set — paste to replace'; }, 2000);
     });
 
+    // Notification toggle
+    const notifBtn = document.getElementById('settings-notif-toggle');
+    function updateNotifBtn() {
+      if (!notifBtn) return;
+      const enabled = Storage.getSetting('notifications_enabled');
+      const perm    = 'Notification' in window ? Notification.permission : 'denied';
+      if (perm === 'denied') {
+        notifBtn.textContent = 'Notifications blocked by browser';
+        notifBtn.disabled = true;
+      } else if (enabled && perm === 'granted') {
+        notifBtn.textContent = 'Reminder: on — tap to disable';
+      } else {
+        notifBtn.textContent = 'Enable Daily Reminder';
+        notifBtn.disabled = false;
+      }
+    }
+    notifBtn?.addEventListener('click', () => {
+      const enabled = Storage.getSetting('notifications_enabled');
+      if (enabled) {
+        Storage.setSetting('notifications_enabled', false);
+        updateNotifBtn();
+        return;
+      }
+      if (!('Notification' in window)) return;
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          Storage.setSetting('notifications_enabled', true);
+        }
+        updateNotifBtn();
+      });
+    });
+  }
+
+  // ── Notification reminder ───────────────────────────────────────────────────
+  function checkNotificationReminder() {
+    if (!Storage.getSetting('notifications_enabled')) return;
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    const log = Storage.getLog();
+    if (!log.length) return;
+    const hoursSince = (Date.now() - new Date(log[0].timestamp).getTime()) / 36e5;
+    if (hoursSince >= 18) {
+      new Notification('Sota', {
+        body: 'Your practice is waiting.',
+        icon: '/sota/assets/icons/icon-192.png',
+        silent: true,
+      });
+    }
   }
 
   // ── Main init ──────────────────────────────────────────────────────────────
@@ -140,9 +186,11 @@
     Kasina.init();
     Tracker.init();
     Companion.init();
+    Retreat.init();
     Voice.init();
     initSettings();
     showMode('sit-setup');
+    checkNotificationReminder();
   }
 
   // ── Boot ───────────────────────────────────────────────────────────────────

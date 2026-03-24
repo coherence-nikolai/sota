@@ -2,7 +2,7 @@
 // Offline-first for all core functions.
 // AI Companion requires connectivity (API calls).
 
-const CACHE_VERSION = 'sota-v4';
+const CACHE_VERSION = 'sota-v5';
 const STATIC_ASSETS = [
   '/sota/',
   '/sota/index.html',
@@ -16,6 +16,7 @@ const STATIC_ASSETS = [
   '/sota/js/tracker.js',
   '/sota/js/companion.js',
   '/sota/js/noting.js',
+  '/sota/js/retreat.js',
   '/sota/js/voice.js',
   '/sota/js/app.js',
   '/sota/manifest.json',
