@@ -86,8 +86,18 @@
           <div class="session-type-options">
             <button class="session-btn active" data-type="noting">Noting</button>
             <button class="session-btn" data-type="metta">Metta</button>
-            <button class="session-btn" data-type="samatha">Samatha</button>
+            <button class="session-btn" data-type="samatha">Anapana</button>
+            <button class="session-btn" data-type="kasina">Kasina</button>
           </div>
+        </div>
+        <div class="sit-setup-block" id="kasina-select-block" style="display:none">
+          <label>Kasina object</label>
+          <div class="kasina-obj-options">
+            <button class="kasina-obj-btn" data-obj="fire">Fire</button>
+            <button class="kasina-obj-btn active" data-obj="disc">White Disc</button>
+            <button class="kasina-obj-btn" data-obj="light">Light</button>
+          </div>
+          <p class="setup-note" style="margin-top:0.5rem">Gaze at the object. Close the eyes when the sign arises.</p>
         </div>
         <div class="sit-setup-block" id="stage-select-block">
           <label>Where are you?</label>
@@ -102,6 +112,15 @@
           </select>
         </div>
         <button id="sit-begin" class="btn-primary">Begin Sit</button>
+        <p class="friend-sit-link"><a href="#" id="friend-sit-btn">Sit with a friend →</a></p>
+        <div id="friend-sit-panel" class="friend-sit-panel hidden">
+          <p class="setup-note">Share this link. Both timers will sync automatically.</p>
+          <div class="friend-sit-url-row">
+            <input type="text" id="friend-sit-url" readonly />
+            <button id="friend-sit-copy" class="btn-secondary">copy</button>
+          </div>
+          <button id="friend-sit-close" class="btn-ghost-sm" style="margin-top:0.5rem">close</button>
+        </div>
         <p class="dana-link"><a href="https://buymeacoffee.com/coherence_nikolai" target="_blank" rel="noopener noreferrer">Support this app →</a></p>
       </div>
     </div>
@@ -171,6 +190,28 @@
       </div>
       <div class="noting-wrap">
         <div id="noting-content" class="noting-content"></div>
+      </div>
+    </div>
+
+    <!-- Mode: Kasina Concentration -->
+    <div id="mode-kasina" class="mode-screen hidden">
+      <div class="kasina-header">
+        <span id="kasina-object-label" class="kasina-object-badge">White Disc</span>
+        <button id="kasina-end" class="btn-ghost">✕</button>
+      </div>
+      <div class="kasina-canvas-wrap">
+        <canvas id="kasina-canvas"></canvas>
+      </div>
+      <div class="kasina-info">
+        <div id="kasina-timer" class="kasina-timer">00:00</div>
+        <div id="kasina-guidance" class="kasina-guidance"></div>
+      </div>
+      <div class="kasina-footer">
+        <div class="kasina-returns-row">
+          <span class="kasina-returns-label">returns</span>
+          <span id="kasina-returns" class="kasina-returns-count">0</span>
+        </div>
+        <button id="kasina-return" class="btn-return">returned</button>
       </div>
     </div>
 
@@ -275,6 +316,7 @@
   <script src="js/api.js"></script>
   <script src="js/compass.js"></script>
   <script src="js/sit.js"></script>
+  <script src="js/kasina.js"></script>
   <script src="js/tracker.js"></script>
   <script src="js/companion.js"></script>
   <script src="js/noting.js"></script>

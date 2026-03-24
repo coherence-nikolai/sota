@@ -137,6 +137,7 @@
     initNav();
     initCompass();
     Sit.init();
+    Kasina.init();
     Tracker.init();
     Companion.init();
     Voice.init();
@@ -146,6 +147,18 @@
 
   // ── Boot ───────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Friend Sit: join a synchronised sit via URL link
+    if (params.get('friend')) {
+      document.getElementById('screen-setup').classList.remove('active');
+      document.getElementById('screen-setup').style.display = 'none';
+      document.getElementById('app').classList.remove('hidden');
+      initApp();
+      Sit.joinFriend(params);
+      return;
+    }
+
     // If API key already set, skip setup
     if (Storage.hasApiKey()) {
       document.getElementById('screen-setup').classList.remove('active');

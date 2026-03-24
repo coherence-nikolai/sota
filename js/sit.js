@@ -21,13 +21,14 @@ const Sit = (() => {
     'Someone neutral — a stranger, a passerby. May they be well. May they be free from suffering.',
   ];
 
+  // Anapana (Samatha) — staged breath anchoring progression
   const SAMATHA_GUIDANCE = [
-    'Settle at the breath. Not controlling it — just resting attention at the point where breath meets the upper lip.',
-    'When the mind moves, return. No commentary. Just return to the breath. Again and again.',
-    'The object is the breath. Not the idea of the breath — the actual sensation, right now, at the nostrils.',
-    'Concentration deepens through return, not through forcing. Each return is the practice.',
-    'Let everything else recede. Sounds, thoughts, sensations — let them be in the background. The breath is foreground.',
-    'The mind is steadying. Stay with the breath. Don\'t reach for anything beyond what is here.',
+    'Settle at the breath. Find the most vivid point of contact — the nostril tip, the upper lip, the exact place where air enters and exits.',
+    'Don\'t follow the breath in. Stay at the entrance — the nostril tip. Just this point. Just this sensation, right now.',
+    'Each time the mind moves, return to that point. No commentary. Just return. The returning is the practice.',
+    'The breath will become more subtle as concentration deepens. Don\'t hold the gross sensation — follow it inward. Subtler and subtler.',
+    'A sign may arise — a brightness, a warmth, a glow at the nostril. If it comes, don\'t look at it directly. Peripheral awareness. Let it stabilise.',
+    'If the nimitta is bright and stable, incline the mind gently toward it. Don\'t force entry. The door opens when the conditions are right.',
   ];
 
   // Offline guidance library — used when no API key or for instant delivery
@@ -81,10 +82,72 @@ const Sit = (() => {
     close: 'You are very close. Keep noting. Note the sense of closeness. Don\'t grasp at it. Let it happen. Let go.',
   };
 
+  // ── Friend Sit ────────────────────────────────────────────────────────────────
+
+  function initFriendSit() {
+    const btn = document.getElementById('friend-sit-btn');
+    const panel = document.getElementById('friend-sit-panel');
+    const urlEl = document.getElementById('friend-sit-url');
+    const copyBtn = document.getElementById('friend-sit-copy');
+    const closeBtn = document.getElementById('friend-sit-close');
+
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const activeBtn = document.querySelector('.dur-btn.active');
+      const minutes   = parseInt(activeBtn?.dataset.min || '60');
+      const dur       = minutes > 0 ? minutes * 60 : 3600;
+      const start     = Date.now();
+      const base      = window.location.origin + window.location.pathname;
+      const url       = `${base}?friend=1&start=${start}&dur=${dur}`;
+      urlEl.value     = url;
+      panel.classList.remove('hidden');
+    });
+
+    copyBtn?.addEventListener('click', () => {
+      navigator.clipboard.writeText(urlEl.value).then(() => {
+        copyBtn.textContent = 'copied';
+        setTimeout(() => { copyBtn.textContent = 'copy'; }, 2000);
+      }).catch(() => {
+        urlEl.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'copied';
+        setTimeout(() => { copyBtn.textContent = 'copy'; }, 2000);
+      });
+    });
+
+    closeBtn?.addEventListener('click', () => panel.classList.add('hidden'));
+  }
+
+  function joinFriend(params) {
+    const startMs  = parseInt(params.get('start') || '0');
+    const durSecs  = parseInt(params.get('dur')   || '3600');
+    if (!startMs) return;
+
+    const elapsed  = Math.floor((Date.now() - startMs) / 1000);
+    if (elapsed >= durSecs) return; // sit already finished
+
+    // Boot into the sit at the elapsed offset
+    currentType   = 'noting';
+    currentStage  = 'unknown';
+    targetSeconds = durSecs;
+    seconds       = Math.max(0, elapsed);
+    isActive      = true;
+
+    document.getElementById('mode-sit-setup').classList.add('hidden');
+    document.getElementById('mode-sit').classList.remove('hidden');
+    document.getElementById('sit-stage-label').textContent = 'friend sit';
+
+    showGuidance('You\'re in. Timer is synchronised. Settle in.');
+    timerInterval = setInterval(tick, 1000);
+    scheduleGuidance();
+  }
+
   function init() {
     document.getElementById('sit-begin').addEventListener('click', beginSit);
     document.getElementById('sit-end').addEventListener('click', endSit);
     document.getElementById('sit-close').addEventListener('click', endSit);
+    initFriendSit();
 
     // Duration buttons
     document.querySelectorAll('.dur-btn').forEach(btn => {
@@ -100,9 +163,19 @@ const Sit = (() => {
         document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentType = btn.dataset.type;
-        // Hide stage select for metta/samatha — not relevant
-        const stageBlock = document.getElementById('stage-select-block');
-        if (stageBlock) stageBlock.style.display = currentType === 'noting' ? '' : 'none';
+        // Show/hide blocks based on type
+        const stageBlock  = document.getElementById('stage-select-block');
+        const kasinaBlock = document.getElementById('kasina-select-block');
+        if (stageBlock)  stageBlock.style.display  = currentType === 'noting'  ? '' : 'none';
+        if (kasinaBlock) kasinaBlock.style.display = currentType === 'kasina'  ? '' : 'none';
+      });
+    });
+
+    // Kasina object buttons
+    document.querySelectorAll('.kasina-obj-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.kasina-obj-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
     });
 
@@ -129,37 +202,42 @@ const Sit = (() => {
     const on = Voice.isEnabled();
     btn.textContent = on ? 'voice on' : 'voice off';
     btn.classList.toggle('voice-off', !on);
-    // Hide if ElevenLabs not configured
-    btn.style.display = Voice.hasVoice() ? '' : 'none';
   }
 
   function beginSit() {
-    const activeBtn = document.querySelector('.dur-btn.active');
-    const minutes = parseInt(activeBtn?.dataset.min || '60');
-    currentType  = document.querySelector('.session-btn.active')?.dataset.type || 'noting';
-    currentStage = currentType === 'noting'
+    const activeBtn   = document.querySelector('.dur-btn.active');
+    const minutes     = parseInt(activeBtn?.dataset.min || '60');
+    currentType       = document.querySelector('.session-btn.active')?.dataset.type || 'noting';
+
+    // Kasina gets its own screen
+    if (currentType === 'kasina') {
+      const kasinaObj = document.querySelector('.kasina-obj-btn.active')?.dataset.obj || 'disc';
+      document.getElementById('mode-sit-setup').classList.add('hidden');
+      document.getElementById('mode-kasina').classList.remove('hidden');
+      Kasina.start(kasinaObj, minutes || 60);
+      return;
+    }
+
+    currentStage  = currentType === 'noting'
       ? document.getElementById('sit-stage-select').value
       : currentType;
     targetSeconds = minutes * 60;
-    seconds = 0;
-    isActive = true;
+    seconds       = 0;
+    isActive      = true;
 
     // Show the sit screen
     document.getElementById('mode-sit-setup').classList.add('hidden');
-    const sitScreen = document.getElementById('mode-sit');
-    sitScreen.classList.remove('hidden');
+    document.getElementById('mode-sit').classList.remove('hidden');
 
-    // Set stage badge
+    // Stage badge
     const stageLabels = {
       early: 'early stages', ap: 'A&P', dissolution: 'dissolution',
       'dark-night': 'dark night', reobs: 're-observation',
       equanimity: 'equanimity', unknown: 'sitting',
-      metta: 'metta', samatha: 'samatha',
+      metta: 'metta', samatha: 'anapana',
     };
-    const badgeText = currentType === 'metta' ? 'metta'
-                    : currentType === 'samatha' ? 'samatha'
-                    : (stageLabels[currentStage] || 'sitting');
-    document.getElementById('sit-stage-label').textContent = badgeText;
+    document.getElementById('sit-stage-label').textContent =
+      stageLabels[currentType] || stageLabels[currentStage] || 'sitting';
 
     // Initial guidance
     if (currentType === 'metta') {
@@ -173,10 +251,7 @@ const Sit = (() => {
       );
     }
 
-    // Start timer
     timerInterval = setInterval(tick, 1000);
-
-    // Schedule guidance at intervals
     scheduleGuidance();
   }
 
@@ -271,5 +346,5 @@ const Sit = (() => {
     showGuidance(offlineText, audioPath);
   }
 
-  return { init };
+  return { init, joinFriend };
 })();
