@@ -1,0 +1,11 @@
+{
+  "appId": "com.coherencenikolai.sota",
+  "appName": "Sota",
+  "webDir": "www",
+  "server": {
+    "allowNavigation": ["api.anthropic.com"]
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}
