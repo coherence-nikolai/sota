@@ -39,7 +39,7 @@
   }
 
   // ── Mode router ────────────────────────────────────────────────────────────
-  const MODES = ['sit-setup', 'compass', 'tracker', 'companion'];
+  const MODES = ['sit-setup', 'compass', 'tracker', 'noting', 'companion'];
   let activeMode = 'sit-setup';
 
   function showMode(mode) {
@@ -56,6 +56,7 @@
     activeMode = mode;
 
     if (mode === 'tracker') Tracker.refresh();
+    if (mode === 'noting') Noting.reset();
   }
 
   function initNav() {
@@ -156,6 +157,7 @@
     Sit.init();
     Tracker.init();
     Companion.init();
+    Noting.init();
     Voice.init();
     initSettings();
     showMode('sit-setup');

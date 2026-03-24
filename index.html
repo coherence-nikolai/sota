@@ -134,6 +134,17 @@
       <div class="tracker-history" id="tracker-history"></div>
     </div>
 
+    <!-- Mode: Noting Trainer -->
+    <div id="mode-noting" class="mode-screen hidden">
+      <div class="noting-header">
+        <h2>Noting</h2>
+        <p class="noting-header-sub">sense door · feeling tone · emotion</p>
+      </div>
+      <div class="noting-wrap">
+        <div id="noting-content" class="noting-content"></div>
+      </div>
+    </div>
+
     <!-- Mode: AI Companion -->
     <div id="mode-companion" class="mode-screen hidden">
       <div class="companion-header">
@@ -192,6 +203,10 @@
         <span class="nav-icon">▦</span>
         <span class="nav-label">Track</span>
       </button>
+      <button class="nav-btn" data-mode="noting">
+        <span class="nav-icon">∴</span>
+        <span class="nav-label">Note</span>
+      </button>
       <button class="nav-btn" data-mode="companion">
         <span class="nav-icon">◈</span>
         <span class="nav-label">Companion</span>
@@ -246,6 +261,7 @@
   <script src="js/sit.js"></script>
   <script src="js/tracker.js"></script>
   <script src="js/companion.js"></script>
+  <script src="js/noting.js"></script>
   <script src="js/voice.js"></script>
   <script src="js/app.js"></script>
 </body>
