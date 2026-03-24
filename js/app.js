@@ -157,7 +157,6 @@
     Sit.init();
     Tracker.init();
     Companion.init();
-    Noting.init();
     Voice.init();
     initSettings();
     showMode('sit-setup');

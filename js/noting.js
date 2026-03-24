@@ -52,31 +52,46 @@ const Noting = (() => {
 
   // ── Render ───────────────────────────────────────────────────────────────────
   function init() {
-    render();
+    // Nothing — render happens on first showMode call
   }
 
   function reset() {
     step = 'sense';
     data = {};
-    render();
+    paint();
   }
 
+  // Immediate render — no fade, used on entry to the mode
+  function paint() {
+    const el = document.getElementById('noting-content');
+    if (!el) return;
+    el.style.transition = 'none';
+    el.style.opacity = '1';
+    buildContent(el);
+    wireButtons();
+  }
+
+  // Animated transition between steps
   function render() {
     const el = document.getElementById('noting-content');
     if (!el) return;
-
+    el.style.transition = 'opacity 0.35s ease';
     el.style.opacity = '0';
     setTimeout(() => {
-      if (step === 'sense') {
-        el.innerHTML = buildGrid('what are you noticing?', 'sense door', SENSE_DOORS, 'noting-grid-2col');
-      } else if (step === 'vedana') {
-        el.innerHTML = buildGrid('what is its tone?', 'feeling tone', VEDANA, 'noting-grid-3col');
-      } else {
-        el.innerHTML = buildGrid('any emotion present?', 'emotion', EMOTIONS, 'noting-grid-2col');
-      }
+      buildContent(el);
       wireButtons();
       el.style.opacity = '1';
-    }, 350);
+    }, 370);
+  }
+
+  function buildContent(el) {
+    if (step === 'sense') {
+      el.innerHTML = buildGrid('what are you noticing?', 'sense door', SENSE_DOORS, 'noting-grid-2col');
+    } else if (step === 'vedana') {
+      el.innerHTML = buildGrid('what is its tone?', 'feeling tone', VEDANA, 'noting-grid-3col');
+    } else {
+      el.innerHTML = buildGrid('any emotion present?', 'emotion', EMOTIONS, 'noting-grid-2col');
+    }
   }
 
   function buildGrid(question, title, items, gridClass) {
@@ -102,13 +117,13 @@ const Noting = (() => {
 
         if (step === 'sense') {
           data.sense = item;
-          setTimeout(() => { step = 'vedana'; render(); }, 900);
+          setTimeout(() => { step = 'vedana'; render(); }, 700);
         } else if (step === 'vedana') {
           data.vedana = item;
-          setTimeout(() => { step = 'emotion'; render(); }, 900);
+          setTimeout(() => { step = 'emotion'; render(); }, 700);
         } else {
           data.emotion = item;
-          setTimeout(complete, 600);
+          setTimeout(complete, 500);
         }
       });
     });
@@ -116,6 +131,7 @@ const Noting = (() => {
 
   function complete() {
     const el = document.getElementById('noting-content');
+    el.style.transition = 'opacity 0.35s ease';
     el.style.opacity = '0';
 
     setTimeout(() => {
@@ -127,8 +143,8 @@ const Noting = (() => {
       `;
       el.style.opacity = '1';
       playTone(528);
-      setTimeout(reset, 2500);
-    }, 350);
+      setTimeout(() => { step = 'sense'; data = {}; render(); }, 2500);
+    }, 370);
   }
 
   function escHtml(s) {
