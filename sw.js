@@ -2,7 +2,7 @@
 // Offline-first for all core functions.
 // AI Companion requires connectivity (API calls).
 
-const CACHE_VERSION = 'sota-v5';
+const CACHE_VERSION = 'sota-v6';
 const STATIC_ASSETS = [
   '/sota/',
   '/sota/index.html',
@@ -20,6 +20,8 @@ const STATIC_ASSETS = [
   '/sota/js/voice.js',
   '/sota/js/app.js',
   '/sota/manifest.json',
+  '/sota/assets/icons/icon-192.png',
+  '/sota/assets/icons/icon-512.png',
 ];
 
 self.addEventListener('install', event => {
