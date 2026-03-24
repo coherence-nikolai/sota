@@ -75,13 +75,16 @@ const Noting = (() => {
   function render() {
     const el = document.getElementById('noting-content');
     if (!el) return;
-    el.style.transition = 'opacity 0.35s ease';
+    el.style.transition = 'opacity 0.4s ease';
+    el.style.opacity = '1';
+    void el.offsetHeight; // force reflow so transition registers
     el.style.opacity = '0';
     setTimeout(() => {
       buildContent(el);
       wireButtons();
+      void el.offsetHeight; // force reflow before fade-in
       el.style.opacity = '1';
-    }, 370);
+    }, 450);
   }
 
   function buildContent(el) {
@@ -131,7 +134,9 @@ const Noting = (() => {
 
   function complete() {
     const el = document.getElementById('noting-content');
-    el.style.transition = 'opacity 0.35s ease';
+    el.style.transition = 'opacity 0.4s ease';
+    el.style.opacity = '1';
+    void el.offsetHeight;
     el.style.opacity = '0';
 
     setTimeout(() => {
@@ -141,10 +146,11 @@ const Noting = (() => {
           <div class="noting-complete-sub">noted</div>
         </div>
       `;
+      void el.offsetHeight;
       el.style.opacity = '1';
       playTone(528);
       setTimeout(() => { step = 'sense'; data = {}; render(); }, 2500);
-    }, 370);
+    }, 450);
   }
 
   function escHtml(s) {
