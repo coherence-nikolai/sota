@@ -128,12 +128,63 @@
     <!-- Mode: Stage Compass -->
     <div id="mode-compass" class="mode-screen hidden">
       <div class="compass-header">
-        <h2>Stage Compass</h2>
+        <div class="compass-tabs">
+          <button class="compass-tab active" data-tab="map">Map</button>
+          <button class="compass-tab" data-tab="resolve">Resolve</button>
+        </div>
       </div>
-      <div class="compass-map" id="compass-map"></div>
-      <div id="compass-detail" class="compass-detail hidden">
-        <button class="compass-back btn-ghost-sm">← map</button>
-        <div id="compass-detail-content"></div>
+
+      <!-- Map tab -->
+      <div id="compass-tab-map">
+        <div class="compass-map" id="compass-map"></div>
+        <div id="compass-detail" class="compass-detail hidden">
+          <button class="compass-back btn-ghost-sm">← map</button>
+          <div id="compass-detail-content"></div>
+        </div>
+      </div>
+
+      <!-- Resolve tab -->
+      <div id="compass-tab-resolve" class="hidden">
+        <div class="resolve-scroll">
+          <div class="resolve-inner">
+
+            <div class="resolve-section">
+              <h3 class="resolve-h3">Stream Entry</h3>
+              <p>Stream entry is the first irreversible stage of awakening. The yogi who attains it has crossed a threshold that cannot be uncrossed. Something fundamental in the relationship between the mind and its own experience has permanently changed.</p>
+              <p>It is attained through sustained practice with the Progress of Insight — sixteen insight knowledges moving from early concentration through the arising and passing event, dissolution, the dark night territory of fear, misery and re-observation, and into equanimity, where the path event becomes possible.</p>
+              <p>At stream entry, three things are permanently ended:</p>
+              <ul class="resolve-list">
+                <li><strong>Identity view</strong> — the deep-seated sense that there is a fixed, separate self at the centre of experience</li>
+                <li><strong>Doubt</strong> — uncertainty about whether the path leads where it is said to lead</li>
+                <li><strong>Attachment to rites and rituals</strong> — the belief that the form of practice, rather than its substance, is what liberates</li>
+              </ul>
+              <p>What remains is a practitioner who knows, from direct experience, that the project is real. The first crossing is the decisive one.</p>
+            </div>
+
+            <div class="resolve-section">
+              <h3 class="resolve-h3">The Resolution</h3>
+              <p>Making a firm resolution for stream entry is itself a practice. It gives the mind direction. It creates a context for every sit. When motivation flags — and it will — the resolution reminds the mind of what it has already committed to.</p>
+              <p>The resolution is made, then released. You state it clearly, let it settle, and return to the practice. The mind now has a vector.</p>
+            </div>
+
+            <div class="resolve-section">
+              <div class="resolve-field-label">Your resolution</div>
+              <textarea id="resolve-text" class="resolve-textarea" rows="4" placeholder="Write your resolution here. State it plainly. Mean it."></textarea>
+              <div class="resolve-date-row">
+                <span id="resolve-date" class="resolve-date"></span>
+                <button id="resolve-save" class="btn-secondary">Save &amp; Renew</button>
+              </div>
+            </div>
+
+            <div class="resolve-section resolve-quotes">
+              <div class="resolve-quote">"Resolve with all your mental energy to attain stream entry. Do this again and again. Incline your mind however best you can to that again and again without restraint. Total, natural, wonderful commitment is key."</div>
+              <div class="resolve-quote">"Resolving for something seems to push the mind in the desired direction. The fact that the mind has resolved to accomplish something is enough for it to start doing what needs to be done — or to keep the momentum going until it does."</div>
+              <div class="resolve-quote">"I resolve with all my mental focus to experience something, then I let the resolution go. The mind does the rest."</div>
+              <div class="resolve-quote">"It gives you permission to get it done. It creates a very conducive mindset. If you start to slacken off, the resolve will arise in the mind to remind you — note that slacking off and get back on track."</div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
 

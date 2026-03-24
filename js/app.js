@@ -95,6 +95,42 @@
       detailEl.classList.add('hidden');
       mapEl.classList.remove('hidden');
     });
+
+    // Tab switching: Map | Resolve
+    document.querySelectorAll('.compass-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.compass-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const name = tab.dataset.tab;
+        document.getElementById('compass-tab-map').classList.toggle('hidden', name !== 'map');
+        document.getElementById('compass-tab-resolve').classList.toggle('hidden', name !== 'resolve');
+        if (name === 'resolve') renderResolution();
+      });
+    });
+
+    // Resolution save
+    document.getElementById('resolve-save')?.addEventListener('click', () => {
+      const text = document.getElementById('resolve-text').value.trim();
+      if (!text) return;
+      Storage.setResolution({ text, date: new Date().toISOString() });
+      renderResolution();
+      const btn = document.getElementById('resolve-save');
+      btn.textContent = 'Saved.';
+      setTimeout(() => { btn.textContent = 'Save & Renew'; }, 2000);
+    });
+  }
+
+  function renderResolution() {
+    const r       = Storage.getResolution();
+    const textEl  = document.getElementById('resolve-text');
+    const dateEl  = document.getElementById('resolve-date');
+    if (r) {
+      textEl.value = r.text;
+      const d = new Date(r.date);
+      dateEl.textContent = 'Last renewed ' + d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    } else {
+      dateEl.textContent = '';
+    }
   }
 
   // ── Settings panel ─────────────────────────────────────────────────────────

@@ -172,6 +172,12 @@ const Storage = (() => {
     return { current, longest, lastSitDaysAgo };
   }
 
+  // ── Resolution ─────────────────────────────────────────────────────────────
+  function getResolution() {
+    try { return JSON.parse(localStorage.getItem('sota_resolution') || 'null'); } catch(_) { return null; }
+  }
+  function setResolution(data) { localStorage.setItem('sota_resolution', JSON.stringify(data)); }
+
   // ── Retreat ────────────────────────────────────────────────────────────────
   function getRetreat()         { try { return JSON.parse(localStorage.getItem('sota_retreat') || 'null'); } catch(_) { return null; } }
   function setRetreat(data)     { localStorage.setItem('sota_retreat', JSON.stringify(data)); }
@@ -189,6 +195,7 @@ const Storage = (() => {
     getLog, addEntry, deleteEntry,
     getMomentumScore, getSummaryForAgent,
     getStreak,
+    getResolution, setResolution,
     getRetreat, setRetreat, clearRetreat,
     getSettings, setSetting, getSetting,
     getElKey, setElKey, hasElKey, getVoiceId, setVoiceId,

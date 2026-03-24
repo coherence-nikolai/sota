@@ -314,9 +314,153 @@ select option { background: var(--bg-2); }
 /* .sit-footer defined below in Settings/Voice section */
 
 /* ─── Mode: Stage Compass ─── */
-.compass-header {
-  padding: 24px 20px 16px;
+#mode-compass {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
+
+.compass-header {
+  padding: 20px 20px 0;
+  flex-shrink: 0;
+}
+.compass-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.compass-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-mute);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px 12px;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.compass-tab.active {
+  color: var(--text);
+  border-bottom-color: var(--amber);
+}
+#compass-tab-map {
+  overflow-y: auto;
+  flex: 1;
+}
+#compass-tab-resolve {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ─── Resolve ─── */
+.resolve-scroll {
+  overflow-y: auto;
+  height: 100%;
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 24px);
+}
+.resolve-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.resolve-section p {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.resolve-section p:last-child { margin-bottom: 0; }
+.resolve-h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 14px;
+  font-family: var(--font-ui);
+}
+.resolve-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.resolve-list li {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.resolve-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--amber-dim);
+}
+.resolve-list strong { color: var(--text); font-weight: 600; }
+.resolve-field-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 10px;
+}
+.resolve-textarea {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 90px;
+}
+.resolve-textarea:focus {
+  outline: none;
+  border-color: var(--amber-dim);
+}
+.resolve-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.resolve-date {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-mute);
+  font-style: italic;
+}
+.resolve-quotes {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.resolve-quote {
+  font-size: 0.88rem;
+  color: var(--text-mute);
+  line-height: 1.7;
+  font-style: italic;
+  padding-left: 14px;
+  border-left: 2px solid var(--border);
+}
+
 .compass-header h2 {
   font-size: 1.3rem;
   font-weight: 400;
