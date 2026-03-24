@@ -241,9 +241,9 @@ const Sit = (() => {
 
     // Initial guidance
     if (currentType === 'metta') {
-      showGuidance(METTA_GUIDANCE[0]);
+      showGuidance(METTA_GUIDANCE[0], 'assets/audio/sit/metta-0.mp3');
     } else if (currentType === 'samatha') {
-      showGuidance(SAMATHA_GUIDANCE[0]);
+      showGuidance(SAMATHA_GUIDANCE[0], 'assets/audio/sit/anapana-0.mp3');
     } else {
       showGuidance(
         getGuidanceText(currentStage, 'opening'),
@@ -306,9 +306,11 @@ const Sit = (() => {
       setTimeout(() => {
         if (!isActive) return;
         if (currentType === 'metta') {
-          showGuidance(METTA_GUIDANCE[i % METTA_GUIDANCE.length]);
+          const idx = i % METTA_GUIDANCE.length;
+          showGuidance(METTA_GUIDANCE[idx], `assets/audio/sit/metta-${idx}.mp3`);
         } else if (currentType === 'samatha') {
-          showGuidance(SAMATHA_GUIDANCE[i % SAMATHA_GUIDANCE.length]);
+          const idx = i % SAMATHA_GUIDANCE.length;
+          showGuidance(SAMATHA_GUIDANCE[idx], `assets/audio/sit/anapana-${idx}.mp3`);
         } else {
           const texts = OFFLINE_GUIDANCE[currentStage] || OFFLINE_GUIDANCE.unknown;
           const idx   = i % texts.length;
