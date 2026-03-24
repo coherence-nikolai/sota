@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1A1A1A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sota" />
+  <title>Sota</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- API Key Setup Screen -->
+  <div id="screen-setup" class="screen active">
+    <div class="setup-inner">
+      <h1 class="wordmark">SOTA</h1>
+      <p class="setup-sub">An intelligent companion for the motivated yogi.</p>
+      <div class="setup-block">
+        <label for="api-key-input">Anthropic API Key</label>
+        <p class="setup-note">Your key is stored only on this device. Nothing leaves it except the API call itself.</p>
+        <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+        <button id="api-key-save" class="btn-primary">Begin</button>
+      </div>
+      <p class="setup-skip"><a href="#" id="skip-setup">Continue without AI Companion →</a></p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" class="hidden">
+
+    <!-- Mode: Guided Sit -->
+    <div id="mode-sit" class="mode-screen hidden">
+      <div class="sit-header">
+        <span id="sit-stage-label" class="sit-stage-badge">equanimity</span>
+        <button id="sit-close" class="btn-ghost">✕</button>
+      </div>
+      <div class="sit-center">
+        <div id="sit-timer" class="sit-timer">00:00</div>
+        <div id="sit-guidance" class="sit-guidance"></div>
+      </div>
+      <div class="sit-keywords">
+        <button class="kw-btn" data-kw="heavy">heavy</button>
+        <button class="kw-btn" data-kw="cycling">cycling</button>
+        <button class="kw-btn" data-kw="craving">craving</button>
+        <button class="kw-btn" data-kw="fear">fear</button>
+        <button class="kw-btn" data-kw="electric">electric</button>
+        <button class="kw-btn" data-kw="open">open</button>
+        <button class="kw-btn" data-kw="numb">numb</button>
+        <button class="kw-btn" data-kw="close">close</button>
+      </div>
+      <div class="sit-footer">
+        <button id="sit-end" class="btn-ghost-sm">end sit</button>
+        <button id="sit-voice-toggle" class="sit-voice-btn" title="Toggle voice guidance">voice on</button>
+      </div>
+    </div>
+
+    <!-- Sit Setup -->
+    <div id="mode-sit-setup" class="mode-screen hidden">
+      <div class="setup-inner">
+        <h2>Guided Sit</h2>
+        <div class="sit-setup-block">
+          <label>Duration</label>
+          <div class="duration-options">
+            <button class="dur-btn" data-min="30">30 min</button>
+            <button class="dur-btn" data-min="45">45 min</button>
+            <button class="dur-btn active" data-min="60">60 min</button>
+            <button class="dur-btn" data-min="90">90 min</button>
+            <button class="dur-btn" data-min="0">Open</button>
+          </div>
+        </div>
+        <div class="sit-setup-block">
+          <label>Where are you?</label>
+          <select id="sit-stage-select">
+            <option value="unknown">Don't know</option>
+            <option value="early">Early stages / building concentration</option>
+            <option value="ap">A&P — bright, electric, rapid</option>
+            <option value="dissolution">Dissolution — things falling apart</option>
+            <option value="dark-night">Dark night — fear, heaviness, dread</option>
+            <option value="reobs">Re-observation — cycling, back in the dark</option>
+            <option value="equanimity">Equanimity — vast, open, still</option>
+          </select>
+        </div>
+        <button id="sit-begin" class="btn-primary">Begin Sit</button>
+      </div>
+    </div>
+
+    <!-- Mode: Stage Compass -->
+    <div id="mode-compass" class="mode-screen hidden">
+      <div class="compass-header">
+        <h2>Stage Compass</h2>
+      </div>
+      <div class="compass-map" id="compass-map"></div>
+      <div id="compass-detail" class="compass-detail hidden">
+        <button class="compass-back btn-ghost-sm">← map</button>
+        <div id="compass-detail-content"></div>
+      </div>
+    </div>
+
+    <!-- Mode: Tracker -->
+    <div id="mode-tracker" class="mode-screen hidden">
+      <div class="tracker-header">
+        <h2>Practice Log</h2>
+      </div>
+      <div class="tracker-momentum" id="tracker-momentum"></div>
+      <div class="tracker-log-form">
+        <h3>Log a sit</h3>
+        <div class="log-row">
+          <label>Duration (min)</label>
+          <input type="number" id="log-duration" value="60" min="1" max="480" />
+        </div>
+        <div class="log-row">
+          <label>Stage</label>
+          <select id="log-stage">
+            <option value="unknown">Unknown</option>
+            <option value="early">Early / concentration</option>
+            <option value="ap">A&P</option>
+            <option value="dissolution">Dissolution</option>
+            <option value="dark-night">Dark night</option>
+            <option value="reobs">Re-observation</option>
+            <option value="equanimity">Equanimity</option>
+            <option value="post-path">Post-path</option>
+          </select>
+        </div>
+        <div class="log-row">
+          <label>Notes</label>
+          <textarea id="log-notes" rows="3" placeholder="What arose. What moved. What the move was."></textarea>
+        </div>
+        <button id="log-save" class="btn-primary">Log Sit</button>
+      </div>
+      <div class="tracker-history" id="tracker-history"></div>
+    </div>
+
+    <!-- Mode: AI Companion -->
+    <div id="mode-companion" class="mode-screen hidden">
+      <div class="companion-header">
+        <h2>AI Companion</h2>
+        <div class="companion-agent-badge" id="companion-agent-badge">Ñāna Oracle</div>
+      </div>
+      <div class="companion-messages" id="companion-messages">
+        <div class="msg msg-system">
+          <p>Describe what's happening in your practice — what you're experiencing, how long you've been in it, what the sits feel like. The Oracle will orient you.</p>
+        </div>
+      </div>
+      <div class="companion-input-row">
+        <div class="companion-agent-select">
+          <select id="companion-agent">
+            <option value="oracle">Ñāna Oracle</option>
+            <option value="dark-night">Dark Night Specialist</option>
+            <option value="guidance">Guidance Writer</option>
+            <option value="metta">Metta Composer</option>
+          </select>
+        </div>
+        <div class="companion-input-wrap">
+          <textarea id="companion-input" rows="2" placeholder="What's arising..."></textarea>
+          <button id="companion-send" class="btn-send">→</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings toggle -->
+    <button id="settings-toggle" title="Settings">⚙</button>
+
+    <!-- Nav -->
+    <nav id="main-nav">
+      <button class="nav-btn active" data-mode="sit-setup">
+        <span class="nav-icon">◎</span>
+        <span class="nav-label">Sit</span>
+      </button>
+      <button class="nav-btn" data-mode="compass">
+        <span class="nav-icon">⊕</span>
+        <span class="nav-label">Compass</span>
+      </button>
+      <button class="nav-btn" data-mode="tracker">
+        <span class="nav-icon">▦</span>
+        <span class="nav-label">Track</span>
+      </button>
+      <button class="nav-btn" data-mode="companion">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">Companion</span>
+      </button>
+    </nav>
+
+  </div><!-- /app -->
+
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="settings-panel hidden">
+    <div class="settings-scroll">
+      <div class="settings-inner">
+        <div class="settings-header">
+          <h2>Settings</h2>
+          <button id="settings-close" class="btn-ghost">✕</button>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Anthropic API</div>
+          <div class="settings-note">Used for AI Companion and real-time sit guidance. Stored only on this device.</div>
+          <input type="password" id="settings-ant-key" autocomplete="off" spellcheck="false" />
+          <button id="settings-ant-save" class="btn-secondary">Save Key</button>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Companion Voice · Optional</div>
+          <div class="settings-note">Sit guidance uses a pre-recorded voice — no setup needed. If you want the AI Companion's text responses read aloud, add your own ElevenLabs key and Voice ID here.</div>
+          <label class="settings-label">ElevenLabs API Key</label>
+          <input type="password" id="settings-el-key" autocomplete="off" spellcheck="false" />
+          <label class="settings-label">Voice ID</label>
+          <input type="text" id="settings-voice-id" placeholder="Voice ID from ElevenLabs" autocomplete="off" spellcheck="false" />
+          <div class="settings-row">
+            <button id="settings-voice-save" class="btn-secondary">Save</button>
+            <button id="settings-voice-test" class="btn-ghost-sm">▶ Test</button>
+          </div>
+          <div class="settings-voice-status" id="settings-voice-status"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Dana</div>
+          <div class="settings-note">Sota is free. If it has been useful to your practice, consider a contribution.</div>
+          <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="btn-ghost-sm settings-dana-link">Support on Ko-fi →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/agents.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/compass.js"></script>
+  <script src="js/sit.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
