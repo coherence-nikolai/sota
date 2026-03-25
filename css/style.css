@@ -44,6 +44,14 @@ html, body {
   gap: 24px;
 }
 
+.setup-logo {
+  width: 160px;
+  height: 160px;
+  border-radius: 36px;
+  margin: 0 auto 1.5rem;
+  display: block;
+}
+
 .wordmark {
   font-size: 3rem;
   font-weight: 400;

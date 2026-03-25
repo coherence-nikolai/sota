@@ -17,11 +17,13 @@
   <!-- API Key Setup Screen -->
   <div id="screen-setup" class="screen active">
     <div class="setup-inner">
+      <img src="assets/icons/icon-512.png" class="setup-logo" alt="" />
       <h1 class="wordmark">SOTA</h1>
       <p class="setup-sub">An intelligent companion for the motivated yogi.</p>
       <div class="setup-block">
         <label for="api-key-input">Anthropic API Key</label>
         <p class="setup-note">Your key is stored only on this device. Nothing leaves it except the API call itself.</p>
+        <p class="setup-note">Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--amber)">console.anthropic.com</a></p>
         <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
         <button id="api-key-save" class="btn-primary">Begin</button>
       </div>
