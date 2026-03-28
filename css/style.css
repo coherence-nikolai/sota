@@ -995,7 +995,7 @@ select option { background: var(--bg-2); }
 /* ─── Settings Toggle ─── */
 #settings-toggle {
   position: fixed;
-  top: 16px;
+  top: calc(var(--safe-t) + 16px);
   right: 16px;
   z-index: 150;
   background: none;
