@@ -15,6 +15,7 @@
   --font-body: Georgia, 'Cormorant Garamond', serif;
   --font-ui:   -apple-system, BlinkMacSystemFont, sans-serif;
   --nav-h:    64px;
+  --safe-t:   env(safe-area-inset-top, 0px);
   --safe-b:   env(safe-area-inset-bottom, 0px);
 }
 
@@ -163,6 +164,7 @@ select option { background: var(--bg-2); }
 .mode-screen {
   flex: 1;
   overflow-y: auto;
+  padding-top: calc(var(--safe-t) + 16px);
   padding-bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
 }
 
@@ -200,7 +202,7 @@ select option { background: var(--bg-2); }
 .nav-label { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* ─── Mode: Sit Setup ─── */
-#mode-sit-setup .setup-inner { padding-top: 32px; }
+#mode-sit-setup .setup-inner { padding-top: calc(var(--safe-t) + 32px); }
 #mode-sit-setup h2 {
   font-size: 1.4rem;
   font-weight: 400;
