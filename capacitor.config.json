@@ -3,7 +3,13 @@
   "appName": "Sota",
   "webDir": "www",
   "server": {
-    "allowNavigation": ["api.anthropic.com"]
+    "allowNavigation": [
+      "api.anthropic.com",
+      "api.openai.com",
+      "generativelanguage.googleapis.com",
+      "api.mistral.ai",
+      "openrouter.ai"
+    ]
   },
   "ios": {
     "contentInset": "automatic"

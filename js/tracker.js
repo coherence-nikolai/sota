@@ -29,7 +29,7 @@ const Tracker = (() => {
 
   async function runInsights() {
     if (!Storage.hasApiKey()) {
-      alert('Add your Anthropic API key in Settings to use Practice Insights.');
+      alert('Add a provider API key in Settings to use Practice Insights.');
       return;
     }
     const panel = document.getElementById('tracker-insights');
@@ -43,11 +43,12 @@ const Tracker = (() => {
     try {
       let text = '';
       await API.invokeAgent('pattern', history, {
+        feature: 'insights',
         onChunk: (_, full) => { body.textContent = full; },
         onDone:  (full)    => { body.textContent = full; },
       });
     } catch (err) {
-      body.textContent = 'Could not load insights. Check your API key.';
+      body.textContent = 'Could not load insights. Check your API keys.';
     }
   }
 
@@ -122,7 +123,7 @@ const Tracker = (() => {
 
     const stageLabels = {
       unknown: 'unknown', early: 'early stages', ap: 'A&P',
-      dissolution: 'dissolution', 'dark-night': 'dark night',
+      dissolution: 'dissolution', 'dark-night': 'dukkha ñāṇas',
       reobs: 're-observation', equanimity: 'equanimity', 'post-path': 'post-path',
     };
 

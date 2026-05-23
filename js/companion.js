@@ -10,7 +10,7 @@ const Companion = (() => {
 
   const DESCRIPTIONS = {
     oracle:      'Maps your experience to the Progress of Insight.',
-    'dark-night':'Deep expertise in ñānas 6–10. Effort calibration.',
+    'dark-night':'Deep expertise in the dukkha ñāṇas, 6–10. Effort calibration.',
     pali:        'Grounds experience in classical Pāli terminology.',
     retreat:     'Structures intensive home retreat practice.',
     guidance:    'Writes voice track scripts in the Hamilton register.',
@@ -20,7 +20,7 @@ const Companion = (() => {
     pattern:     'Reads your practice data and identifies patterns.',
     narrator:    'Tells the story of your practice arc.',
     relapse:     'Meets you after a gap. Gets momentum moving again.',
-    crisis:      'Holds the boundary between dark night and genuine crisis.',
+    crisis:      'Holds the boundary between dukkha ñāṇas and genuine crisis.',
   };
 
   function init() {
@@ -66,7 +66,7 @@ const Companion = (() => {
     if (!text) return;
 
     if (!Storage.hasApiKey()) {
-      appendMessage('system', 'No API key set. Go to Settings to add your Anthropic API key.');
+      appendMessage('system', 'No API key set. Go to Settings to add a provider API key.');
       return;
     }
 
@@ -176,10 +176,10 @@ const Companion = (() => {
 
   function formatError(err) {
     if (err.message === 'NO_API_KEY') {
-      return 'No API key set. Add your Anthropic API key in Settings.';
+      return 'No API key set. Add a provider API key in Settings.';
     }
     if (err.message.includes('401') || err.message.includes('invalid')) {
-      return 'API key invalid or expired. Check your key in Settings.';
+      return 'API key invalid or expired. Check your keys in Settings.';
     }
     return `Error: ${err.message}`;
   }

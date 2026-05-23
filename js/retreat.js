@@ -126,7 +126,7 @@ const Retreat = (() => {
     '10day': {
       name: '10-Day Classic',
       tagline: 'The full arc. No shortcuts.',
-      description: 'Ten days following the classical structure: foundation, acceleration, dark night, equanimity, integration. The format most practitioners find transformative.',
+      description: 'Ten days following the classical structure: foundation, acceleration, dukkha ñāṇas, equanimity, integration. The format most practitioners find transformative.',
       days: [
         {
           theme: 'Arrival',

@@ -46,7 +46,7 @@ const Sit = (() => {
     dissolution: [
       'Things are falling apart. This is the practice working. Keep noting what\'s there even if it\'s hazy.',
       'Note what you can. Even if phenomena are unclear, unclear is what\'s arising. Note it.',
-      'The dark night is approaching. Keep the momentum going into it.',
+      'The dukkha ñāṇas are approaching. Keep the momentum going into them.',
     ],
     'dark-night': [
       'The brightness has gone. What\'s here now is heavier. This is exactly what comes after the A&P. Keep noting.',
@@ -233,7 +233,7 @@ const Sit = (() => {
     // Stage badge
     const stageLabels = {
       early: 'early stages', ap: 'A&P', dissolution: 'dissolution',
-      'dark-night': 'dark night', reobs: 're-observation',
+      'dark-night': 'dukkha ñāṇas', reobs: 're-observation',
       equanimity: 'equanimity', unknown: 'sitting',
       metta: 'metta', samatha: 'anapana',
     };

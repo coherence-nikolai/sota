@@ -2,11 +2,13 @@
 // Offline-first for all core functions.
 // AI Companion requires connectivity (API calls).
 
-const CACHE_VERSION = 'sota-v6';
+const CACHE_VERSION = 'sota-v9';
 const STATIC_ASSETS = [
   '/sota/',
   '/sota/index.html',
   '/sota/css/style.css',
+  '/sota/js/providers.js',
+  '/sota/js/vault.js',
   '/sota/js/storage.js',
   '/sota/js/agents.js',
   '/sota/js/api.js',
@@ -22,6 +24,7 @@ const STATIC_ASSETS = [
   '/sota/manifest.json',
   '/sota/assets/icons/icon-192.png',
   '/sota/assets/icons/icon-512.png',
+  '/sota/assets/icons/sota-mark-transparent.png',
 ];
 
 self.addEventListener('install', event => {
@@ -45,6 +48,10 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // Let API calls go through — never cache them
   if (event.request.url.includes('api.anthropic.com')) return;
+  if (event.request.url.includes('api.openai.com')) return;
+  if (event.request.url.includes('generativelanguage.googleapis.com')) return;
+  if (event.request.url.includes('api.mistral.ai')) return;
+  if (event.request.url.includes('openrouter.ai')) return;
   if (event.request.url.includes('api.elevenlabs.io')) return;
 
   event.respondWith(

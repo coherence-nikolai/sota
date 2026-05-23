@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rm -rf www && mkdir www && cp -r index.html css js assets manifest.json sw.js www/",
     "sync": "npm run build && npx cap sync ios",
-    "open": "npx cap open ios"
+    "open": "npx cap open ios",
+    "security:check": "node security-check.mjs"
   },
   "repository": {
     "type": "git",

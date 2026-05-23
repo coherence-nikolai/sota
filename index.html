@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.anthropic.com https://api.openai.com https://generativelanguage.googleapis.com https://api.mistral.ai https://openrouter.ai; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'" />
   <meta name="theme-color" content="#1A1A1A" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -14,17 +15,49 @@
 </head>
 <body>
 
+  <!-- Entry Screen -->
+  <div id="screen-entry" class="screen active">
+    <div class="entry-privacy-bar">
+      <button id="entry-privacy-toggle" class="entry-privacy-toggle" type="button" aria-expanded="false" aria-controls="entry-privacy-panel">Privacy</button>
+    </div>
+    <div class="entry-inner">
+      <div class="entry-visual" aria-hidden="true">
+        <div class="entry-stream">
+          <span class="entry-stream-line stream-one"></span>
+          <span class="entry-stream-line stream-two"></span>
+          <span class="entry-stream-line stream-three"></span>
+        </div>
+        <div class="entry-mark">
+          <img src="assets/icons/sota-mark-transparent.png" alt="" />
+          <span class="robe-flap robe-flap-one"></span>
+          <span class="robe-flap robe-flap-two"></span>
+        </div>
+      </div>
+      <p class="entry-kicker">SOTA</p>
+      <h1 class="entry-title">Enter the Stream</h1>
+      <p class="entry-copy">A quiet practice companion for sitting, noting, and finding your place on the path.</p>
+      <button id="entry-enter" class="btn-primary entry-enter" type="button">Enter the Stream</button>
+      <div id="entry-privacy-panel" class="entry-privacy-panel" hidden>
+        <p>API keys stay on this device, are scoped to the provider you choose, and are never added to prompts, exports, or logs.</p>
+        <p>Practice text is sent only to the selected AI provider when you use AI features.</p>
+        <a href="privacy.html">Full privacy notice</a>
+      </div>
+    </div>
+  </div>
+
   <!-- API Key Setup Screen -->
-  <div id="screen-setup" class="screen active">
+  <div id="screen-setup" class="screen">
     <div class="setup-inner">
       <img src="assets/icons/icon-512.png" class="setup-logo" alt="" />
       <h1 class="wordmark">SOTA</h1>
       <p class="setup-sub">An intelligent companion for the motivated yogi.</p>
       <div class="setup-block">
-        <label for="api-key-input">Anthropic API Key</label>
-        <p class="setup-note">Your key is stored only on this device. Nothing leaves it except the API call itself.</p>
-        <p class="setup-note">Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--amber)">console.anthropic.com</a></p>
-        <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+        <label for="api-provider-input">AI Provider</label>
+        <select id="api-provider-input"></select>
+        <label for="api-key-input">Provider API Key</label>
+        <p class="setup-note">Your key is stored only on this device. It is sent only to the provider you choose.</p>
+        <p class="setup-note">You can add backup keys later in Settings.</p>
+        <input type="password" id="api-key-input" placeholder="API key" autocomplete="off" spellcheck="false" />
         <button id="api-key-save" class="btn-primary">Begin</button>
       </div>
       <div class="setup-block" id="onboarding-block" style="display:none">
@@ -32,7 +65,7 @@
         <div class="onboarding-options">
           <button class="onboard-btn" data-level="beginner">New to noting</button>
           <button class="onboard-btn" data-level="post-ap">Had significant experiences</button>
-          <button class="onboard-btn" data-level="dark-night">In the dark night</button>
+          <button class="onboard-btn" data-level="dark-night">In the dukkha ñāṇas</button>
           <button class="onboard-btn" data-level="post-path">Post-path / review</button>
         </div>
       </div>
@@ -108,8 +141,8 @@
             <option value="early">Early stages / building concentration</option>
             <option value="ap">A&P — bright, electric, rapid</option>
             <option value="dissolution">Dissolution — things falling apart</option>
-            <option value="dark-night">Dark night — fear, heaviness, dread</option>
-            <option value="reobs">Re-observation — cycling, back in the dark</option>
+            <option value="dark-night">Dukkha ñāṇas — fear, heaviness, dread</option>
+            <option value="reobs">Re-observation — cycling, back in the dukkha ñāṇas</option>
             <option value="equanimity">Equanimity — vast, open, still</option>
           </select>
         </div>
@@ -153,7 +186,7 @@
             <div class="resolve-section">
               <h3 class="resolve-h3">Stream Entry</h3>
               <p>Stream entry is the first irreversible stage of awakening. The yogi who attains it has crossed a threshold that cannot be uncrossed. Something fundamental in the relationship between the mind and its own experience has permanently changed.</p>
-              <p>It is attained through sustained practice with the Progress of Insight — sixteen insight knowledges moving from early concentration through the arising and passing event, dissolution, the dark night territory of fear, misery and re-observation, and into equanimity, where the path event becomes possible.</p>
+              <p>It is attained through sustained practice with the Progress of Insight — sixteen insight knowledges moving from early concentration through the arising and passing event, dissolution, the dukkha ñāṇas of fear, misery and re-observation, and into equanimity, where the path event becomes possible.</p>
               <p>At stream entry, three things are permanently ended:</p>
               <ul class="resolve-list">
                 <li><strong>Identity view</strong> — the deep-seated sense that there is a fixed, separate self at the centre of experience</li>
@@ -220,7 +253,7 @@
             <option value="early">Early / concentration</option>
             <option value="ap">A&P</option>
             <option value="dissolution">Dissolution</option>
-            <option value="dark-night">Dark night</option>
+            <option value="dark-night">Dukkha ñāṇas</option>
             <option value="reobs">Re-observation</option>
             <option value="equanimity">Equanimity</option>
             <option value="post-path">Post-path</option>
@@ -285,7 +318,7 @@
           <select id="companion-agent">
             <optgroup label="Dharma">
               <option value="oracle">Ñāna Oracle</option>
-              <option value="dark-night">Dark Night Specialist</option>
+              <option value="dark-night">Dukkha Ñāṇas Specialist</option>
               <option value="pali">Pāli Grounding</option>
               <option value="retreat">Retreat Simulator</option>
               <option value="guidance">Guidance Writer</option>
@@ -334,7 +367,7 @@
             <div class="retreat-template-card">
               <div class="retreat-card-name">10-Day Classic</div>
               <div class="retreat-card-tag">The full arc. No shortcuts.</div>
-              <div class="retreat-card-desc">Ten days following the classical structure: foundation, acceleration, dark night, equanimity, integration.</div>
+              <div class="retreat-card-desc">Ten days following the classical structure: foundation, acceleration, dukkha ñāṇas, equanimity, integration.</div>
               <button class="retreat-template-btn btn-primary" data-template="10day">Begin Retreat</button>
             </div>
           </div>
@@ -406,10 +439,30 @@
         </div>
 
         <div class="settings-section">
-          <div class="settings-section-title">Anthropic API</div>
-          <div class="settings-note">Used for AI Companion and real-time sit guidance. Stored only on this device.</div>
-          <input type="password" id="settings-ant-key" autocomplete="off" spellcheck="false" />
-          <button id="settings-ant-save" class="btn-secondary">Save Key</button>
+          <div class="settings-section-title">AI Key Vault</div>
+          <div class="settings-note">Keys stay on this device. Each key is sent only to its matching provider endpoint, never to prompts, exports, logs, or another provider.</div>
+          <div id="settings-key-list" class="api-key-list"></div>
+          <label class="settings-label" for="settings-key-provider">Provider</label>
+          <select id="settings-key-provider"></select>
+          <label class="settings-label" for="settings-key-label">Label</label>
+          <input type="text" id="settings-key-label" placeholder="Primary" autocomplete="off" spellcheck="false" />
+          <label class="settings-label" for="settings-key-value">Key</label>
+          <input type="password" id="settings-key-value" placeholder="API key" autocomplete="off" spellcheck="false" />
+          <button id="settings-key-save" class="btn-secondary">Add Key</button>
+          <div id="settings-key-status" class="settings-status"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">AI Defaults</div>
+          <div class="settings-note">Choose which provider and model each AI surface uses. Practice text is sent only when you use an AI feature.</div>
+          <div id="settings-ai-features" class="ai-feature-list"></div>
+        </div>
+
+        <div class="settings-section settings-danger-zone">
+          <div class="settings-section-title">Privacy</div>
+          <div class="settings-note">Remove sensitive local data from this device.</div>
+          <button id="settings-delete-keys" class="btn-secondary">Delete All Keys</button>
+          <button id="settings-delete-practice" class="btn-secondary">Delete Practice Data</button>
         </div>
 
         <div class="settings-section">
@@ -427,6 +480,8 @@
     </div>
   </div>
 
+  <script src="js/providers.js"></script>
+  <script src="js/vault.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/agents.js"></script>
   <script src="js/api.js"></script>

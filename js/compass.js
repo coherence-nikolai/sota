@@ -46,7 +46,7 @@ const COMPASS = (() => {
       feels: 'Something lit up. The sit went electric — bright, rapid phenomena, possibly lights or visual effects with eyes closed, possibly a sense of bliss or profound insight. The noting became effortless and fast. This was not an ordinary sit.',
       signs: ['Unusual brightness or electricity in the practice', 'Rapid arising and passing of phenomena', 'Possible lights or visual phenomena', 'Deep bliss or profound insight', 'Effortless noting at high speed', 'Sense of significance'],
       trap: 'Chasing it. Trying to hold onto the brightness. Expecting every sit to feel like this. The dissolution is coming — you cannot stop it and you should not try.',
-      move: 'Don\'t chase it. Don\'t try to hold onto it. Note what\'s arising and let it pass. Know that the A&P has been crossed. Know that the dark night is coming. This is not a problem. It is the path.',
+      move: 'Don\'t chase it. Don\'t try to hold onto it. Note what\'s arising and let it pass. Know that the A&P has been crossed. Know that the dukkha ñāṇas are coming. This is not a problem. It is the path.',
       ahead: 'Dissolution — things will begin to fall apart. The brightness will fade. This is completely normal and is the next stage of the path.',
     },
     {
@@ -57,8 +57,8 @@ const COMPASS = (() => {
       feels: 'The brightness has gone. Objects are dissolving before they\'re fully formed. Noting is harder — phenomena are less defined, slippery. There\'s a sense of things falling apart.',
       signs: ['Objects dissolving before fully formed', 'Difficulty noting clearly', 'Sense of falling apart', 'The A&P brightness is gone', 'Practice feels less productive'],
       trap: 'Interpreting this as failure or regression. Thinking the good sits are over. Trying to get back to the A&P.',
-      move: 'Keep noting. The dissolution is natural — you\'re seeing impermanence operating at a finer grain than before. Note what\'s there even if it\'s hazy. Stay with the noting. The dark night is approaching — keep momentum going into it.',
-      ahead: 'The dark night — fear, heaviness, dread. It will feel like something has gone wrong. It hasn\'t.',
+      move: 'Keep noting. The dissolution is natural — you\'re seeing impermanence operating at a finer grain than before. Note what\'s there even if it\'s hazy. Stay with the noting. The dukkha ñāṇas are approaching — keep momentum going into them.',
+      ahead: 'The dukkha ñāṇas — fear, heaviness, dread. It will feel like something has gone wrong. It hasn\'t.',
     },
     {
       num: 6,
@@ -110,10 +110,10 @@ const COMPASS = (() => {
       pali: 'Paṭisaṅkhā',
       section: 'dark-night',
       feels: 'The wheel. Cycling back through the dukkha ñānas again. You thought you were done with this territory and here it is. Often with added discouragement — "this will never end." The recycling loop where serious practice careers end without guidance.',
-      signs: ['Cycling back through dark night', 'Thought to be done with this territory', 'Added weight of discouragement', '"This will never end" thought', 'Cycling through multiple stages within single sits'],
+      signs: ['Cycling back through the dukkha ñāṇas', 'Thought to be done with this territory', 'Added weight of discouragement', '"This will never end" thought', 'Cycling through multiple stages within single sits'],
       trap: 'Adding the meta-suffering of discouragement to what\'s already here. Giving up. Alternatively: pushing harder, creating more craving.',
       move: 'Maximum dispassion. Do not add the weight of discouragement to what\'s already here. Don\'t. Just note. Note the discouragement too. Note the frustration at being back here. Everything gets noted. The wheel stops when you stop pushing it. Keep the momentum going and do not stop.',
-      ahead: 'Equanimity — the dark night lifts. Vast, open, still. But this is the launch pad, not the destination.',
+      ahead: 'Equanimity — the dukkha ñāṇas lift. Vast, open, still. But this is the launch pad, not the destination.',
     },
     {
       num: 11,
@@ -187,7 +187,7 @@ const COMPASS = (() => {
   const SECTIONS = {
     'pre-vipassana': { label: 'Pre-Vipassana Territory  1–3', class: '' },
     'ap':            { label: 'The A&P and Dissolution  4–5', class: 'amber' },
-    'dark-night':    { label: 'The Dark Night  6–10', class: 'danger' },
+    'dark-night':    { label: 'Dukkha Ñāṇas  6–10', class: 'danger' },
     'launchpad':     { label: 'The Launch Pad  11', class: 'amber' },
     'escape':        { label: 'Escape Velocity  12–16', class: 'amber' },
   };
